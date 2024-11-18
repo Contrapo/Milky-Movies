@@ -47,20 +47,17 @@ export default function HomeScreen() {
 
     return (
         <View className="flex-1 bg-neutral-800">
-            {/* search bar and logo */}
+            {/* Barra de Pesquisa e Ícone */}
             <SafeAreaView className={`${ios ? "-mb-2" : "mb-3"} pt-4`}>
                 <StatusBar style="light" />
                 <View className="flex-row justify-between items-center mx-4"> 
                     <Bars3CenterLeftIcon size="30" strokeWidth={2} color="white" />
-                        <Text 
-                        className="text-white text-3xl font-bold">
-                        <Text style={styles.text}>
-                        M
-                        </Text>
-                        ovies
-                        </Text>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Search')}>
-                        <MagnifyingGlassIcon size="30" strokewidth={2} color="white" /> 
+                    <Text className="text-white text-3xl font-bold">
+                        <Text style={styles.text}>M</Text>ilky 
+                        <Text style={styles.text}>M</Text>ovies
+                    </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                        <MagnifyingGlassIcon size="30" strokeWidth={2} color="white" /> 
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
@@ -73,14 +70,14 @@ export default function HomeScreen() {
                         showsVerticalScrollIndicator={false} 
                         contentContainerStyle={{paddingBottom: 10}}
                     >
-                        {/* Trending movies carousel */}
+                        {/* Corrosel dos filmes populares */}
                         { trending.length>0 && <TrendingMovies data={trending} />}
 
-                        {/* Upcoming movies row */}
-                        <MovieList title="Upcoming" data={upcoming} />
+                        {/* Carrosel dos filmes em lançamento */}
+                        <MovieList title="Lançamentos" data={upcoming} />
 
-                        {/* Top Rated movies row */}
-                        <MovieList title="Top Rated" data={topRated} />
+                        {/* Carrosel dos filmes mais assistidos */}
+                        <MovieList title="Mais Assistidos" data={topRated} />
 
                     </ScrollView>
                 )

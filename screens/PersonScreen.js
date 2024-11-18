@@ -53,7 +53,7 @@ export default function PersonScreen() {
                 </TouchableOpacity>
             </SafeAreaView>
 
-            {/* Person Details */}
+            {/* Detalhes do Ator */}
             {
                 loading? (
                     <Loading />
@@ -122,7 +122,7 @@ export default function PersonScreen() {
                             </View>
                         </View>
                         
-                        {/* Biography */}
+                        {/* Biografia */}
                         <View className="my-6 mx-4 space-y-2">
                             <Text className="text-white text-lg">Biografia</Text>
                             <Text className="text-neutral-400 tracking-wide" style={{ marginTop: 10 }}>
@@ -132,7 +132,7 @@ export default function PersonScreen() {
                             </Text>
                         </View>
 
-                        {/* Movies that the actor it's in */}
+                        {/*Filmes que o ator atuou */}
                         <MovieList title={'Filmes'} hiddenSeeAll={true} data={personMovies} />
 
                     </View>

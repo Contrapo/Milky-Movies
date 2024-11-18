@@ -11,7 +11,7 @@ var {width, height} = Dimensions.get('window');
 export default function SearchScreen() {
 
     const navigation = useNavigation();
-    const [results, setResults] = useState([1,2,3,4]);
+    const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     let movieName = 'Guardiões da Galáxia';
 
@@ -45,19 +45,19 @@ export default function SearchScreen() {
                     <TextInput
                         onChangeText={handleTextDebounce}
                         placeholder='Procurar Filmes...'
-                        placeholderTextColor={'lightgray'}
+                        placeholderTextColor={'lightgrey'}
                         className="pb-1 pl-6 flex-1 text-base font-semibold text-white tracking-wide"
                         style={{paddingBottom: 10}}
                     />
                     <TouchableOpacity
                         onPress={()=> navigation.navigate('Home')}
-                        className="rounded-full p-3 m-1 bg-neutral-300"
+                        className="rounded-full p-3 m-1 bg-pink-400"
                     >
                         <XMarkIcon size="25" color="white" />
                     </TouchableOpacity>
             </View>
             
-            {/* results */}
+            {/* Resultados */}
             {
                 loading? (
                     <Loading />
@@ -68,7 +68,7 @@ export default function SearchScreen() {
                         contentContainerStyle={{paddingHorizontal: 15}}
                         className="space-y-3"
                     >
-                        <Text className="text-white font-semibold ml-1">Results ({results.length})</Text>   
+                        <Text className="text-white font-semibold ml-1">Resultados ({results.length})</Text>   
                             <View className="flex-row justify-between flex-wrap" style={{paddingTop: 10}}>
                                 {
                                     results.map((item, index)=>{

@@ -58,7 +58,7 @@ export default function MovieScreen() {
             contentContainerStyle={{paddingBottom: 20}}
             className="flex-1 bg-neutral-900"
         >
-            {/* back button and movie poster */}
+            {/* Botão de Voltar, Favovitar e Poster do filme */}
             <View className="w-full">
                 <SafeAreaView className={"absolute z-20 w-full flex-row justify-between items-center px-4" +topMargin}> 
                     <TouchableOpacity onPress={()=> navigation.goBack()} style={[styles.background, { marginTop:10, marginLeft: 15 }]} className="rounded-xl p-2">
@@ -99,18 +99,17 @@ export default function MovieScreen() {
             </View>
 
             
-            {/* movie details */}
+            {/* Detalhes do Filme */}
             <View style={{marginTop: -(height *0.09)}} className="space-y-3"> 
                 
-                {/* title */}
+                {/* Título */}
                 <Text className="text-white text-center text-3xl font-bold tracking-wider">
                     {
                         item.title
                     }
                 </Text>
                 
-                {/* status, release, runtime */}
-
+                {/* Se já lançou, quando lançou e quanto tempo tem */}
                 {
                     movie?.id?(
                         <Text className="text-neutral-400 font-semibold text-base text-center" style={{marginTop: 10}}> 
@@ -119,7 +118,7 @@ export default function MovieScreen() {
                     ):null
                 }
                 
-                {/* genres */}
+                {/* Gêneros */}
                 <View className="flex-row justify-center items-center">
                     {movie?.genres?.map((genre, index) => {
                         let showDot = index + 1 != movie.genres.length;
@@ -135,20 +134,20 @@ export default function MovieScreen() {
                     })}
                 </View>
 
-                {/* Description */}
+                {/* Sinópse do filme */}
                 <Text className="text-neutral-400 mx-4 tracking-wide" style={{marginTop: 15 }}>
                     {
-                    movie?.overview
+                    movie?.overview || 'N/A'
                     }
                 </Text>
 
             </View>
 
-            {/* cast */}
+            {/* Elenco */}
             {cast.length>0 && <Cast navigation={navigation} cast={cast} />}
 
-            {/* Similar Movies */}
-            {similarMovies.length>0 && <MovieList title="Similar Movies" hiddenSeeAll={true} data={similarMovies} />}
+            {/* Filmes Semelhantes */}
+            {similarMovies.length>0 && <MovieList title="Filmes Semelhantes" hiddenSeeAll={true} data={similarMovies} />}
 
         </ScrollView>
     )

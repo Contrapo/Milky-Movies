@@ -20,13 +20,13 @@ export default function MovieList({title, data, hiddenSeeAll}) {
                 {
                     !hiddenSeeAll && (
                         <TouchableOpacity>
-                            <Text style={styles.text} className="text-lg">See All</Text>
+                            <Text style={styles.text} className="text-lg">Ver Mais</Text>
                         </TouchableOpacity>
                     )
                 }
             </View>
             
-            {/* movie row */}
+            {/* Lista de Filmes */}
             <ScrollView
                 horizontal
                 showsHorizontalScroll Indicator={false}

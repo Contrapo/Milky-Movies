@@ -10,7 +10,7 @@ export default function Cast({cast, navigation}) {
 
     return (
         <View className="my-6">
-            <Text className="text-white text-lg mx-4 mb-5">Top Cast</Text>
+            <Text className="text-white text-lg mx-4 mb-5">Elenco</Text>
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}

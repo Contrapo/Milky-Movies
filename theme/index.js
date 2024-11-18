@@ -1,6 +1,6 @@
 export const theme = {
-    background: '#eab308', 
-    text: '#eab308'
+    background: '#f77ed9', 
+    text: '#f77ed9'
 }
 
 export const styles = {
