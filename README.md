@@ -14,7 +14,7 @@ https://www.npmjs.com/package/react-native-heroicons
 -React-native-snap-carousel
 https://www.npmjs.com/package/react-native-snap-carousel
 
-+
+╋
 
 https://github.com/meliorence/react-native-snap-carousel/issues/970
 (Isso resolve o erro do ViewPropStyles)
