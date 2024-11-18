@@ -3,12 +3,13 @@ import { View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Ima
 import React from 'react'
 import { styles } from '../theme'
 import { useNavigation } from '@react-navigation/native';
+import { fallBackMoviePoster, image185 } from '../api/moviedb';
 
 var {width, height} = Dimensions.get('window');
 
 export default function MovieList({title, data, hiddenSeeAll}) {
     
-    let movieName = 'Guardiões da Galáxia';
+    // let movieName = 'Guardiões da Galáxia';
     const navigation = useNavigation();
 
     return (
@@ -40,15 +41,17 @@ export default function MovieList({title, data, hiddenSeeAll}) {
                             >
                                 
                                 <View className="space-y-1 mr-4">
-                                    <Image
-                                        source={require('../assets/images/MoviePoster1.png')}
-                                        className="rounded-3xl"
-                                        style={{width: width*0.33, height: height*0.22}}
-                                    />
-
-                                    <Text className="text-neutral-300 ml-1 mt-3">
+                                <Image
+                                    source={
+                                        item.poster_path? 
+                                        { uri: image185(item.poster_path) } : fallBackMoviePoster   
+                                    }
+                                    className="rounded-3xl"
+                                    style={{ width: width * 0.33, height: height * 0.22 }}
+                                />
+                                    <Text className="text-neutral-300 ml-1 mt-3" style={{paddingBottom: 10}}>
                                         {
-                                            movieName.length>14? movieName.slice(0,14)+'...': movieName
+                                            item.title.length>14? item.title.slice(0,14)+'...': item.title
                                         }
                                     </Text>
                                 </View>

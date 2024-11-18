@@ -9,6 +9,8 @@ import { styles, theme } from '../theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../components/cast';
 import MovieList from '../components/movieList';
+import Loading from '../components/loading';
+import { fallBackMoviePoster, fetchMoviesCredits, fetchMoviesDetails, fetchSimilarMovies, image500 } from '../api/moviedb';
 
 var {width, height} = Dimensions.get('window');
 const ios = Platform.OS == 'ios';
@@ -18,13 +20,38 @@ export default function MovieScreen() {
     const {params: item} = useRoute();
     const [isFavourite, toggleFavourite] = useState(false);
     const navigation = useNavigation();
-    const [cast, setCast] = useState([1,2,3,4,5]);
-    const [similarMovies, setSimilarMovies] = useState([1,2,3,4,5]);
-    let movieName = 'Guardiões da Galáxia';
+    const [cast, setCast] = useState([]);
+    const [similarMovies, setSimilarMovies] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [movie, setMovie] = useState({});
+    // let movieName = 'Guardiões da Galáxia';
+    
+    useEffect(()=>{
+        // console.log('itemid: ',item.id);
+        setLoading(true);
+        getMovieDetails(item.id);
+        getMovieCredits(item.id);
+        getSimilarMovies(item.id);
+    },[item]);
 
-    useEffect (() =>{
-    // call the movie details api
-    }, [item])
+    const getMovieDetails = async id=>{
+        const data = await fetchMoviesDetails(id);
+        // console.log('Peguei as informações do filme: ', data);
+        if(data) setMovie(data);
+        setLoading(false);
+    }
+
+    const getMovieCredits = async id=>{
+        const data = await fetchMoviesCredits(id);
+        // console.log('Peguei esses créditos: ', data);
+        if(data && data.cast) setCast(data.cast);
+    }
+
+    const getSimilarMovies = async id=>{
+        const data = await fetchSimilarMovies(id);
+        // console.log('Peguei esses filmes similares: ', data);
+        if(data && data.results) setSimilarMovies(data.results);
+    }
 
     return(
         <ScrollView
@@ -42,20 +69,33 @@ export default function MovieScreen() {
                         <HeartIcon size="35" color={isFavourite? theme.background :"white"} />
                     </TouchableOpacity>
                 </SafeAreaView>
-                <View>
-                    <Image
-                        source={require('../assets/images/MoviePoster1.png')}
-                        style={{width, height: height*0.55}}
-                    />
-                    
-                    <LinearGradient
-                        colors={['transparent', 'rgba(23,23,23,0.8)', 'rgba(23,23,23, 1)']}
-                        style={{width, height: height*0.40}}
-                        start={{x: 0.5, y: 0}}
-                        end={{x: 0.5, y: 1}}
-                        className="absolute bottom-0"
-                    />
-                </View>
+
+                {
+                    loading? (
+                        <Loading />
+                    ):(
+                        <View>
+                            <Image
+                                // source={require('../assets/images/MoviePoster1.png')}
+                                source={
+                                    item.poster_path
+                                        ? { uri: image500(item.poster_path) }
+                                        : fallBackMoviePoster
+                                }
+                                style={{width, height: height*0.55}}
+                            />
+                            
+                            <LinearGradient
+                                colors={['transparent', 'rgba(23,23,23,0.8)', 'rgba(23,23,23, 1)']}
+                                style={{width, height: height*0.40}}
+                                start={{x: 0.5, y: 0}}
+                                end={{x: 0.5, y: 1}}
+                                className="absolute bottom-0"
+                            />
+                        </View>
+                    )
+                }
+
             </View>
 
             
@@ -65,40 +105,50 @@ export default function MovieScreen() {
                 {/* title */}
                 <Text className="text-white text-center text-3xl font-bold tracking-wider">
                     {
-                        movieName
+                        item.title
                     }
                 </Text>
                 
                 {/* status, release, runtime */}
-                <Text className="text-neutral-400 font-semibold text-base text-center" style={{marginTop: 10 }}> 
-                    Released • 2020 • 170 min
-                </Text>
+
+                {
+                    movie?.id?(
+                        <Text className="text-neutral-400 font-semibold text-base text-center" style={{marginTop: 10}}> 
+                            {movie?.status === "Released" ? "Lançado" : movie?.status} • {movie?.release_date?.split('-')[0]} • {movie?.runtime} min
+                        </Text>
+                    ):null
+                }
                 
                 {/* genres */}
-                <View className="flex-row justify-center mx-4 space-x-2" >
-                    <Text className="text-neutral-400 font-semibold text-base text-center" style={{marginRight: 5 }}>
-                        Action • 
-                    </Text>
-                    <Text className="text-neutral-400 font-semibold text-base text-center" style={{marginRight: 5 }}>
-                        Comédia • 
-                    </Text>
-                    <Text className="text-neutral-400 font-semibold text-base text-center">
-                        Aventura 
-                    </Text>
+                <View className="flex-row justify-center items-center">
+                    {movie?.genres?.map((genre, index) => {
+                        let showDot = index + 1 != movie.genres.length;
+                        return (
+                            <Text
+                                key={index}
+                                className="text-neutral-400 font-semibold text-base"
+                                style={{ marginRight: showDot ? 5 : 0 }}
+                            >
+                                {genre?.name} {showDot ? "•" : null}
+                            </Text>
+                        );
+                    })}
                 </View>
 
                 {/* Description */}
                 <Text className="text-neutral-400 mx-4 tracking-wide" style={{marginTop: 15 }}>
-                O aventureiro do espaço Peter Quill torna-se presa de caçadores de recompensas depois que rouba a esfera de um vilão traiçoeiro, Ronan. Para escapar do perigo, ele faz uma aliança com um grupo de quatro extraterrestres. Quando Quill descobre que a esfera roubada possui um poder capaz de mudar os rumos do universo, ele e seu grupo deverão proteger o objeto para salvar o futuro da galáxia.
+                    {
+                    movie?.overview
+                    }
                 </Text>
 
             </View>
 
             {/* cast */}
-            <Cast navigation={navigation} cast={cast} />
+            {cast.length>0 && <Cast navigation={navigation} cast={cast} />}
 
             {/* Similar Movies */}
-            <MovieList title="Similar Movies" hiddenSeeAll={true} data={similarMovies} />
+            {similarMovies.length>0 && <MovieList title="Similar Movies" hiddenSeeAll={true} data={similarMovies} />}
 
         </ScrollView>
     )
