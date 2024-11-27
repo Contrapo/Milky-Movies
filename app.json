@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Milky-Movies",
-    "slug": "Milky-Movies",
+    "slug": "milky-movies",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,17 +13,25 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ios.milkymovies.com"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.contrapo.milkymovies"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fc434859-1059-430d-bfb3-b67d7257fe0a"
+      }
+    },
+    "owner": "contrapo"
   }
 }
